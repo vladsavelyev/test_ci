@@ -1,0 +1,29 @@
+sudo: required 
+dist: trusty
+
+language: python
+python:
+  # We don't actually use the Travis Python (since we are on conda), but this keeps it organized.
+  - "3.6"
+
+install:
+  - touch installed
+
+script:
+  - touch tested
+
+services:
+  - docker
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+deploy:
+  provider: script
+  script:
+#    - rm -rf $HOME/miniconda
+    - docker version
+    - docker images
+  on:
+    branch: master
