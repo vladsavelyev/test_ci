@@ -6,19 +6,26 @@ python:
   # We don't actually use the Travis Python (since we are on conda), but this keeps it organized.
   - "3.6"
 
-install:
-  - touch installed
+install: true
+
+stages:
+  - install
+  - test
+  - deploy
 
 jobs:
   include:
+    - stage: install
+      script:
+      - echo "1" > installed
     - stage: test
       script:
-      - touch tested
+      - cat installed > tested
     - stage: deploy
       script:
       - docker version
       - docker images
-      - echo $DOCKER_USER/umccrise:$(cat VERSION.txt)
+      - cat tested > deployed
 
 services:
   - docker
