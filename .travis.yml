@@ -22,4 +22,5 @@ addons:
 after_success:
   - docker version
   - docker images
+  - echo $DOCKER_USER/umccrise:$(cat VERSION.txt)
 
