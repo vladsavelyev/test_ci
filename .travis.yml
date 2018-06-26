@@ -19,10 +19,7 @@ addons:
     packages:
       - docker-ce
 
-deploy:
-  provider: script
-  script:
-    - docker version
-    - docker images
-  on:
-    branch: master
+after_success:
+  - docker version
+  - docker images
+
