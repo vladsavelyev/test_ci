@@ -9,8 +9,16 @@ python:
 install:
   - touch installed
 
-script:
-  - touch tested
+jobs:
+  include:
+    - stage: test
+      script:
+      - touch tested
+    - stage: deploy
+      script:
+      - docker version
+      - docker images
+      - echo $DOCKER_USER/umccrise:$(cat VERSION.txt)
 
 services:
   - docker
@@ -18,9 +26,4 @@ addons:
   apt:
     packages:
       - docker-ce
-
-after_success:
-  - docker version
-  - docker images
-  - echo $DOCKER_USER/umccrise:$(cat VERSION.txt)
 
