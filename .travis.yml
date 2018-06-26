@@ -22,7 +22,6 @@ addons:
 deploy:
   provider: script
   script:
-#    - rm -rf $HOME/miniconda
     - docker version
     - docker images
   on:
