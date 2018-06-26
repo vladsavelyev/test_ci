@@ -6,26 +6,37 @@ python:
   # We don't actually use the Travis Python (since we are on conda), but this keeps it organized.
   - "3.6"
 
-install: true
+install:
+  - echo "1" > installed
 
-stages:
-  - install
-  - test
-  - deploy
+script:
+  - cat installed > tested
 
-jobs:
-  include:
-    - stage: install
-      script:
-      - echo "1" > installed
-    - stage: test
-      script:
-      - cat installed > tested
-    - stage: deploy
-      script:
-      - docker version
-      - docker images
-      - cat tested > deployed
+after_success:
+  - docker version
+  - docker build -t $DOCKER_USER/test_travis:$(cat VERSION.txt) -f Dockerfile .
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USER" --password-stdin
+  - docker images
+  - docker push $DOCKER_USER/test_travis:$(cat VERSION.txt)
+
+# stages:
+#   - install
+#   - test
+#   - deploy
+
+# jobs:
+#   include:
+#     - stage: install
+#       script:
+#       - echo "1" > installed  
+#     - stage: test
+#       script:
+#       - cat installed > tested
+#     - stage: deploy
+#       script:
+#       - docker version
+#       - docker images
+#       - cat tested > deployed
 
 services:
   - docker
