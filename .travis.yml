@@ -14,6 +14,7 @@ script:
 
 after_success:
   # Building docker image
+  - echo $TRAVIS_BRANCH
   - test $TRAVIS_BRANCH = "master" && \
     docker version && \
     rm -rf $HOME/miniconda umccrise_test_data  && \
