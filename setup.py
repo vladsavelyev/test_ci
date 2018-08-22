@@ -5,13 +5,14 @@ if py_v < (3, 6):
     sys.exit('Only Python 3.6 and higher are supported. Current version: ' + '.'.join(py_v))
 
 from os.path import join
+import os
 
 name = 'test_travis'
 script_name = 'test_travis'
 package_name = 'test_travis'
 
-with open('VERSION.txt') as f:
-    version = f.read().strip().split('\n')[0]
+
+version = os.environ.get('TRAVIS_TAG', 'dev')
 
 from setuptools import setup, find_packages
 setup(
