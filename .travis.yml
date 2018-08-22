@@ -1,61 +1,40 @@
-sudo: required 
-dist: trusty
+sudo: required
 
 language: python
 python:
   # We don't actually use the Travis Python (since we are on conda), but this keeps it organized.
   - "3.6"
 
+before_install:
+  - export PACKAGENAME=test_travis
+  # Get and install anaconda (https://conda.io/docs/travis.html)
+  - wget -nv https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH=$HOME/miniconda/bin:$PATH
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda info -a  # Useful for debugging any issues with conda
+  - conda config --set always_yes true
+  - conda config --set anaconda_upload no
+
 install:
   - echo "1" > installed
+  - conda install -q python=$TRAVIS_PYTHON_VERSION pip requests conda-build jinja2 anaconda-client
+  # Building package
+  - conda build -c vladsaveliev -c bioconda -c conda-forge conda/${PACKAGENAME}
+  - conda install -c vladsaveliev -c bioconda -c conda-forge --use-local ${PACKAGENAME}
 
 script:
   - cat installed > tested
 
-after_success:
-  # Building docker image
-  - echo $TRAVIS_BRANCH
-  - test $TRAVIS_BRANCH = "master" && grep -qv dev VERSION.txt && 
-    docker version &&
-    rm -rf $HOME/miniconda umccrise_test_data  &&
-    docker build -t vladsaveliev/test_travis:$(cat VERSION.txt) -f Dockerfile .
-  # Pushing docker image
-  - test $TRAVIS_BRANCH = "master" && grep -qv dev VERSION.txt && 
-    docker images &&
-    echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USER" --password-stdin &&
-    docker push vladsaveliev/test_travis:$(cat VERSION.txt)
+deploy:
+  # Deploy to Anaconda.org
+  - provider: script
+    script: ./conda/deploy_anaconda.sh
+    on:
+      tags: true
+    skip_cleanup: true
 
-#after_success:
-#  - docker version
-#  - cat VERSION.txt
-#  - docker build -t $DOCKER_USER/test_travis:$(cat VERSION.txt) -f Dockerfile .
-#  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USER" --password-stdin
-#  - docker images
-#  - docker push $DOCKER_USER/test_travis:$(cat VERSION.txt)
 
-# stages:
-#   - install
-#   - test
-#   - deploy
-
-# jobs:
-#   include:
-#     - stage: install
-#       script:
-#       - echo "1" > installed  
-#     - stage: test
-#       script:
-#       - cat installed > tested
-#     - stage: deploy
-#       script:
-#       - docker version
-#       - docker images
-#       - cat tested > deployed
-
-services:
-  - docker
-addons:
-  apt:
-    packages:
-      - docker-ce
 

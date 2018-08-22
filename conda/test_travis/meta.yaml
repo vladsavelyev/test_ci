@@ -1,0 +1,23 @@
+{% set version=1.0 %}
+
+package:
+  name: test_travis
+  version: "{{ version }}"
+
+source:
+  path: ../../
+
+build:
+  number: 0
+
+about:
+  home: https://github.com/vladsaveliev/bed_annotation
+  license: GNU General Public License v3 (GPLv3)
+  summary: 'Assign gene names to regions in a BED file'
+  license_family: GPL3
+
+requirements:
+  build:
+    - python ==3.6
+  run:
+    - python ==3.6
