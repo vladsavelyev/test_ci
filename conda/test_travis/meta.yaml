@@ -1,4 +1,4 @@
-{% set version=1.0 %}
+{% set version=load_setup_py_data().get('version') %}
 
 package:
   name: test_travis
