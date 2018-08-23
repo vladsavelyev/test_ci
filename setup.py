@@ -1,18 +1,15 @@
 #!/usr/bin/env python
+import os
+from os.path import join
 import sys
+from setuptools import setup, find_packages
 py_v = sys.version_info[:2]
 if py_v < (3, 6):
     sys.exit('Only Python 3.6 and higher are supported. Current version: ' + '.'.join(py_v))
 
-from os.path import join
-import os
+name = script_name = package_name = 'test_travis'
 
-name = 'test_travis'
-script_name = 'test_travis'
-package_name = 'test_travis'
-
-
-version = os.environ.get('TRAVIS_TAG', 'dev')
+version = os.environ.get('TRAVIS_TAG') or 'dev'
 
 from setuptools import setup, find_packages
 setup(
