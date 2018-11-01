@@ -28,15 +28,25 @@ install:
 script:
   - cat installed > tested
 
+#deploy:
+#  # Deploy to Anaconda.org
+#  - provider: script
+#    script: ./deploy/deploy_anaconda.sh $PACKAGE_NAME $ANACONDA_TOKEN
+#    on:
+#      tags: true
+#    skip_cleanup: true
+
+
 deploy:
   # Deploy to Anaconda.org
   - provider: script
-    script: ./deploy/deploy_anaconda.sh $PACKAGE_NAME $ANACONDA_TOKEN
+    script: rm -rf $HOME/miniconda &&
+            docker build -t vladsaveliev/test_travis:$TRAVIS_TAG -f Dockerfile . &&
+            echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USER" --password-stdin &&
+            docker push vladsaveliev/test_travis:$TRAVIS_TAG
     on:
       tags: true
     skip_cleanup: true
-
-
 
 ##########################
 ## Pushing to DockerHub
