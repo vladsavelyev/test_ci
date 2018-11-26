@@ -21,11 +21,10 @@ before_install:
 install:
   - echo "1" > installed
   - conda config --add channels defaults --add channels vladsaveliev --add channels bioconda --add channels conda-forge
-  - conda install -q python=$TRAVIS_PYTHON_VERSION pip requests conda-build jinja2 anaconda-client ngs_utils
+  - conda install -q python=$TRAVIS_PYTHON_VERSION pip requests conda-build jinja2 anaconda-client
   # Building package
   - conda build deploy/conda_package/${PACKAGE_NAME}
   - conda install --use-local ${PACKAGE_NAME}
-
 
 script:
   - cat installed > tested
