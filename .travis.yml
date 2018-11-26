@@ -40,15 +40,20 @@ script:
 
 
 deploy:
-  # Deploy to Anaconda.org
   - provider: script
-    script: rm -rf $HOME/miniconda &&
-            docker build -t vladsaveliev/test_travis:$TRAVIS_TAG -f Dockerfile . &&
-            echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USER" --password-stdin &&
-            docker push vladsaveliev/test_travis:$TRAVIS_TAG
+    script:
+      - conda convert --platform osx-64 $HOME/miniconda/conda-bld/linux-64/${PACKAGE_NAME}-*.tar.bz2 --output-dir $HOME/miniconda/conda-bld/
+      - anaconda -t ${ANACONDA_TOKEN} upload $HOME/miniconda/conda-bld/**/${PACKAGE_NAME}-*.tar.bz2
     on:
       tags: true
     skip_cleanup: true
+
+# Docker:
+    # script: rm -rf $HOME/miniconda &&
+    #         docker build -t vladsaveliev/test_travis:$TRAVIS_TAG -f Dockerfile . &&
+    #         echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USER" --password-stdin &&
+    #         docker push vladsaveliev/test_travis:$TRAVIS_TAG
+
 
 ##########################
 ## Pushing to DockerHub
