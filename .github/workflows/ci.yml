@@ -10,7 +10,7 @@ jobs:
       - name: setup
         run: |
           wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-          bash miniconda.sh
+          bash miniconda.sh -b
           PATH="$PWD/miniconda3/bin:${PATH}"
           conda config --set always_yes yes --set changeps1 no
           conda install -c conda-forge mamba
