@@ -14,7 +14,9 @@ jobs:
           export PATH="${PWD}/miniconda3/bin:${PATH}"
           conda config --set always_yes yes --set changeps1 no
           conda install -c conda-forge mamba
-          which mamba
+          echo $PATH
+          ls ${PWD}/miniconda3/bin
+          ${PWD}/miniconda3/bin/mamba update conda
           mamba update conda
 
 
