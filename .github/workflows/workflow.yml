@@ -10,9 +10,6 @@ jobs:
       - name: Add miniconda to PATH
         run: echo "::add-path::${HOME}/miniconda3/bin"
 
-      - name: Set package name
-        run: echo "::set-env name=PACKAGE_NAME=${GITHUB_REPOSITORY}"
-
       - name: Setup conda
         run: |
           wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -28,11 +25,11 @@ jobs:
 
       - name: Build package
         run: |
-          mamba build conda/${PACKAGE_NAME}
+          mamba build conda/$(basename $GITHUB_REPOSITORY)
 
       - name: Install
         run: |
-          mamba install --use-local ${PACKAGE_NAME}
+          mamba install --use-local $(basename $GITHUB_REPOSITORY)
 
       - name: Test
         run: |
