@@ -7,15 +7,30 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: setup
+      - name: Setup conda
         run: |
           wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose -O miniconda.sh
           bash miniconda.sh -b
           export PATH="${HOME}/miniconda3/bin:${PATH}"
           conda config --set always_yes yes --set changeps1 no
           conda install -c conda-forge mamba
-          echo $PATH
-          ls ${HOME}/miniconda3/bin
           mamba update conda
+          mamba config --add channels defaults --add channels vladsaveliev --add channels bioconda --add channels conda-forge
+          mamba install -y pip versionpy conda-build conda-verify anaconda-client
+
+      - name: Build package
+        run: |
+          mamba build conda/test_travis --output-folder conda/test_travis
+
+      - name: Install and test
+        run: |
+          mamba install --use-local test_travis
+
+      - name: Upload to anaconda
+        run: |
+          cd conda/test_travis
+          mamba convert -p osx-64 linux-64/*.tar.bz2
+          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload linux-64/*.tar.bz2
+          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload osx-64/*.tar.bz2
 
 
