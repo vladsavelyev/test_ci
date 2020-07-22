@@ -12,8 +12,10 @@ jobs:
           wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose -O miniconda.sh
           bash miniconda.sh -b
           export PATH="$PWD/miniconda3/bin:${PATH}"
+          echo $PATH
           conda config --set always_yes yes --set changeps1 no
           conda install -c conda-forge mamba
+          echo $PATH
           mamba update conda
           mamba config --add channels defaults --add channels vladsaveliev --add channels bioconda --add channels conda-forge
           mamba install -y pip versionpy conda-build conda-verify anaconda-client
