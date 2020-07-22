@@ -16,7 +16,7 @@ jobs:
           conda install -c conda-forge mamba
           mamba update conda
           mamba config --add channels defaults --add channels vladsaveliev --add channels bioconda --add channels conda-forge
-          mamba install -y pip versionpy conda-build conda-verify anaconda-client
+          mamba install -c vladsaveliev pip versionpy conda-build conda-verify anaconda-client
 
       - name: Build package
         run: |
