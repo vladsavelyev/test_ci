@@ -28,6 +28,7 @@ jobs:
       - name: Install and test
         run: |
           export PATH="${HOME}/miniconda3/bin:${PATH}"
+          cd conda/test_travis
           mamba install --use-local test_travis
 
       - name: Upload to anaconda
