@@ -12,7 +12,8 @@ jobs:
           wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
             --no-verbose -O miniconda.sh
           bash miniconda.sh -b
-          echo "::add-path::${HOME}/miniconda3/bin:${PATH}"
+          echo "::add-path::${HOME}/miniconda3/bin"
+          echo $PATH
           conda config --set always_yes yes --set changeps1 no
           conda install -c conda-forge mamba
           mamba update conda
