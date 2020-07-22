@@ -1,40 +1,44 @@
-name: Build conda package, test and upload to anaconda
-on: [push]
+name: Build, test and publish conda package
+on: [push, pull_request]
+env:
+  PACKAGE: test_travis
 
 jobs:
-  build:
+  build-test-publish:
+    name: Build, test and publish conda package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
 
       - name: Setup conda
         run: |
-          wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose -O miniconda.sh
+          wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+            --no-verbose -O miniconda.sh
           bash miniconda.sh -b
           export PATH="${HOME}/miniconda3/bin:${PATH}"
           conda config --set always_yes yes --set changeps1 no
           conda install -c conda-forge mamba
           mamba update conda
-          conda config --add channels defaults --add channels vladsaveliev --add channels bioconda --add channels conda-forge
+          conda config --add channels defaults --add channels vladsaveliev --add channels bioconda \
+            --add channels conda-forge
           cat $HOME/.condarc
-          mamba install -c vladsaveliev "python==3.7.*" pip versionpy conda-build conda-verify anaconda-client
+          mamba install pip versionpy conda-build conda-verify anaconda-client
 
       - name: Build package
         run: |
           export PATH="${HOME}/miniconda3/bin:${PATH}"
-          cat $HOME/.condarc
-          mamba build conda/test_travis
+          cat ${HOME}/.condarc
+          mamba build conda/${PACKAGE}
 
-      - name: Install and test
+      - name: Install
         run: |
           export PATH="${HOME}/miniconda3/bin:${PATH}"
-          mamba install --use-local test_travis
+          mamba install --use-local ${PACKAGE}
 
       - name: Upload to anaconda
+        on: [create]
         run: |
           export PATH="${HOME}/miniconda3/bin:${PATH}"
           conda convert --platform osx-64 ${HOME}/miniconda3/conda-bld/linux-64/*.tar.bz2 \
                              --output-dir ${HOME}/miniconda3/conda-bld/ &&
           anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload ${HOME}/miniconda3/conda-bld/**/*.tar.bz2
-
-
