@@ -11,63 +11,10 @@ jobs:
         run: |
           wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose -O miniconda.sh
           bash miniconda.sh -b
-          export PATH="$PWD/miniconda3/bin:${PATH}"
-          echo $PATH
+          export PATH="${PWD}/miniconda3/bin:${PATH}"
           conda config --set always_yes yes --set changeps1 no
           conda install -c conda-forge mamba
-          echo $PATH
+          which mamba
           mamba update conda
-          mamba config --add channels defaults --add channels vladsaveliev --add channels bioconda --add channels conda-forge
-          mamba install -y pip versionpy conda-build conda-verify anaconda-client
-
-      - name: build
-        run: |
-          mamba build conda/oncoviruses --output-folder conda/oncoviruses
-          mamba install --use-local oncoviruses
-          cd test
-          wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr8.fa.gz
-          oncoviruses T_SRR7890936_50pc-ready.bam -o results --host-fa chr8.fa.gz
-          cd ../conda/oncoviruses
-          mamba convert -p osx-64 linux-64/*.tar.bz2
-          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload linux-64/*.tar.bz2
-          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload osx-64/*.tar.bz2
-
-#  install:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: install-conda-package
-#        uses: vladsaveliev/conda-publish-action@master
-#        with:
-#          entrypoint: |
-#            mamba install --use-local oncoviruses
-#
-#  test:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: run-test
-#        run: |
-#          cd test
-#          wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr8.fa.gz
-#          oncoviruses T_SRR7890936_50pc-ready.bam -o results --host-fa chr8.fa.gz
-#
-#  publish:
-#    runs-on: ubuntu-latest
-#    on:
-#      release:
-#        types: [published]
-#    steps:
-#      - name: publish-to-conda
-#        uses: vladsaveliev/conda-publish-action@master
-#        with:
-#          anacondatoken: ${{ secrets.ANACONDA_TOKEN }}
-#        run: |
-#          cd conda/oncoviruses
-#          mamba convert -p osx-64 linux-64/*.tar.bz2
-#          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload linux-64/*.tar.bz2
-#          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload osx-64/*.tar.bz2
-
-
-
-
 
 
