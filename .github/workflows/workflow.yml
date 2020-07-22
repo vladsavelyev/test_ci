@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: setup_conda_path
+      - name: Add miniconda to PATH
         run: echo "::add-path::${HOME}/miniconda3/bin"
 
       - name: Setup conda
