@@ -1,7 +1,5 @@
 name: Build, test and publish conda package
 on: [push, pull_request]
-env:
-  PACKAGE: test_travis
 
 jobs:
   build-test-publish:
@@ -27,13 +25,12 @@ jobs:
       - name: Build package
         run: |
           export PATH="${HOME}/miniconda3/bin:${PATH}"
-          cat ${HOME}/.condarc
-          mamba build conda/${PACKAGE}
+          mamba build conda/*
 
       - name: Install
         run: |
           export PATH="${HOME}/miniconda3/bin:${PATH}"
-          mamba install --use-local ${PACKAGE}
+          mamba install --use-local $(basename conda/*)
 
       - name: Upload to anaconda
         if: ${{ github.event_name == 'create' }}
