@@ -36,7 +36,7 @@ jobs:
           mamba install --use-local ${PACKAGE}
 
       - name: Upload to anaconda
-        on: [create]
+        if: ${{ github.event_name == 'create' }}
         run: |
           export PATH="${HOME}/miniconda3/bin:${PATH}"
           conda convert --platform osx-64 ${HOME}/miniconda3/conda-bld/linux-64/*.tar.bz2 \
