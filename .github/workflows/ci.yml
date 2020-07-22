@@ -33,8 +33,8 @@ jobs:
       - name: Upload to anaconda
         run: |
           export PATH="${HOME}/miniconda3/bin:${PATH}"
-          conda convert --platform osx-64 ${HOME}/miniconda/conda-bld/linux-64/*.tar.bz2 \
-                             --output-dir ${HOME}/miniconda/conda-bld/ &&
-          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload ${HOME}/miniconda/conda-bld/**/*.tar.bz2
+          conda convert --platform osx-64 ${HOME}/miniconda3/conda-bld/linux-64/*.tar.bz2 \
+                             --output-dir ${HOME}/miniconda3/conda-bld/ &&
+          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload ${HOME}/miniconda3/conda-bld/**/*.tar.bz2
 
 
