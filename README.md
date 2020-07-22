@@ -1,1 +1,1 @@
-### Tiny toy repo to test Travis automated deployment
+### Tiny toy repo to test CI builds/tests/packaging/publishing

@@ -3,19 +3,19 @@ from os.path import join
 from setuptools import setup, find_packages
 from versionpy import get_version, find_package_files, get_reqs
 
-pkg = 'test_travis'
+pkg = 'test_ci'
 version = get_version(pkg)
 
 setup(
     name=pkg,
     script_name=pkg,
     version=version,
-    author='Vlad Saveliev and Alla Mikheenko',
+    author='Vlad Saveliev',
     author_email='vladislav.sav@gmail.com',
     description='Genome capture target coverage evaluation tool',
     long_description=(open('README.md').read()),
     keywords='bioinformatics',
-    url='https://github.com/vladsaveliev/bed_annotation',
+    url='https://github.com/vladsaveliev/test_ci',
     license='GPLv3',
     packages=find_packages(),
     include_package_data=True,
