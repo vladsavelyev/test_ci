@@ -16,18 +16,23 @@ jobs:
           conda install -c conda-forge mamba
           mamba update conda
           mamba config --add channels defaults --add channels vladsaveliev --add channels bioconda --add channels conda-forge
+          cat $HOME/.condarc
           mamba install -c vladsaveliev pip versionpy conda-build conda-verify anaconda-client
 
       - name: Build package
         run: |
+          export PATH="${HOME}/miniconda3/bin:${PATH}"
+          cat $HOME/.condarc
           mamba build conda/test_travis --output-folder conda/test_travis
 
       - name: Install and test
         run: |
+          export PATH="${HOME}/miniconda3/bin:${PATH}"
           mamba install --use-local test_travis
 
       - name: Upload to anaconda
         run: |
+          export PATH="${HOME}/miniconda3/bin:${PATH}"
           cd conda/test_travis
           mamba convert -p osx-64 linux-64/*.tar.bz2
           anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload linux-64/*.tar.bz2
