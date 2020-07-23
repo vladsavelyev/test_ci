@@ -1,8 +1,8 @@
-{% set version=load_setup_py_data().get('version') %}
+{% set data = load_setup_py_data() %}
 
 package:
-  name: test_travis
-  version: "{{ version }}"
+  name: {{ data['name'] }}
+  version: {{ data['version'] }}
 
 source:
   path: ../../
@@ -13,14 +13,14 @@ build:
 
 requirements:
   build:
-    - python ==3.7.*
-    - ngs_utils >=2.3.16
+    - python
+    - versionpy
   run:
-    - python ==3.7.*
-    - ngs_utils >=2.3.16
+    - python
+    - versionpy
+    - ngs_utils
 
 about:
-  home: https://github.com/vladsaveliev/bed_annotation
-  license: GNU General Public License v3 (GPLv3)
-  summary: 'Assign gene names to regions in a BED file'
-  license_family: GPL3
+  home: {{ data['url'] }}
+  license: {{ data['license'] }}
+  summary: {{ data['description'] }}
