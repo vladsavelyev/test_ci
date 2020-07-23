@@ -22,7 +22,7 @@ requirements:
     {% for dep in data.get("install_requires", []) -%}
     - {{ dep.lower() }}
     {% endfor %}
-    -
+
 about:
   home: {{ data['url'] }}
   license: {{ data['license'] }}
