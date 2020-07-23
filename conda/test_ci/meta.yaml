@@ -1,7 +1,8 @@
 {% set data = load_setup_py_data() %}
+{% set name = "test_ci" %}
 
 package:
-  name: {{ data['name'] }}
+  name: {{ name }}
   version: {{ data['version'] }}
 
 source:
