@@ -33,7 +33,7 @@ jobs:
 
       - name: Test
         run: |
-          cp installed tested
+          touch tested
 
       - name: Upload to anaconda
         if: startsWith(github.ref, 'refs/tags/')
