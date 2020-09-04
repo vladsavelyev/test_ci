@@ -7,6 +7,9 @@ jobs:
     # not the accompanying commit:
     if: "! startsWith(github.event.head_commit.message, 'Bump ') || startsWith(github.ref, 'refs/tags/')"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
     steps:
       - uses: actions/checkout@master
 
@@ -25,17 +28,18 @@ jobs:
           mamba install pip versionpy conda-build conda-verify anaconda-client
 
       - name: Build package
-        run: mamba build conda/$(basename $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')
+        run: mamba build conda/$(basename $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]') --python=${{ matrix.python-version }}
 
       - name: Install
         if: "!startsWith(github.ref, 'refs/tags/')"
         run: mamba install --use-local $(basename $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')
 
       - name: Test
+        if: "!startsWith(github.ref, 'refs/tags/')"
         run: |
           touch tested
 
       - name: Upload to anaconda
-        if: "startsWith(github.ref, 'refs/tags/')"
+        # if: "startsWith(github.ref, 'refs/tags/')"
         run: |
-          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload ${HOME}/miniconda3/conda-bld/**/*.tar.bz2
+          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload --force ${HOME}/miniconda3/conda-bld/**/*.tar.bz2

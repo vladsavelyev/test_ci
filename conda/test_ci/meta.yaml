@@ -9,19 +9,21 @@ source:
 
 build:
   number: 0
-  noarch: python
+#  noarch: python
 
 requirements:
   build:
-    - python >=3.6
+    - python {{ python }}
     {% for dep in data.get("install_requires", []) -%}
     - {{ dep.lower() }}
     {% endfor %}
+    - pysam
   run:
     - python
     {% for dep in data.get("install_requires", []) -%}
     - {{ dep.lower() }}
     {% endfor %}
+    - pysam
 
 about:
   home: {{ data['url'] }}
