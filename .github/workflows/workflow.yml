@@ -22,7 +22,7 @@ jobs:
             --no-verbose -O miniconda.sh
           bash miniconda.sh -b
           conda config --set always_yes yes --set changeps1 no
-          conda install -c conda-forge mamba
+          conda install -c conda-forge mamba "python==${{ matrix.python-version }}.*"
           mamba update conda
           conda config --add channels vladsaveliev --add channels bioconda --add channels conda-forge
           mamba install pip versionpy conda-build conda-verify anaconda-client
