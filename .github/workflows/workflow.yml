@@ -25,13 +25,14 @@ jobs:
           conda install -c conda-forge mamba "python==${{ matrix.python-version }}.*"
           mamba update conda
           conda config --add channels cpg --add channels bioconda --add channels conda-forge
-          mamba install pip versionpy conda-build conda-verify anaconda-client
+          mamba install pip conda-build conda-verify anaconda-client
+          pip install versionpy
 
       - id: gcloud
         uses: google-github-actions/setup-gcloud@master
         with:
           project_id: "cpg-ci"
-          service_account_key: ${{ secrets.HAIL_BATCH_CPG_CI_TOKEN }}
+          service_account_key: "${{ secrets.HAIL_BATCH_CPG_CI_TOKEN }}"
           export_default_credentials: true
 
       - name: Build package
