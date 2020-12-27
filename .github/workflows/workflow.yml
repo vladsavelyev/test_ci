@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8]
+        python-version: [3.7]
     steps:
       - uses: actions/checkout@master
 
       - name: Add miniconda to PATH
-        run: echo "::add-path::${HOME}/miniconda3/bin"
+        run: echo "PATH=${HOME}/miniconda3/bin:${PATH}" >> $GITHUB_ENV
 
       - name: Setup conda
         run: |
@@ -24,8 +24,15 @@ jobs:
           conda config --set always_yes yes --set changeps1 no
           conda install -c conda-forge mamba "python==${{ matrix.python-version }}.*"
           mamba update conda
-          conda config --add channels vladsaveliev --add channels bioconda --add channels conda-forge
+          conda config --add channels cpg --add channels bioconda --add channels conda-forge
           mamba install pip versionpy conda-build conda-verify anaconda-client
+
+      - id: gcloud
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: "cpg-ci"
+          service_account_key: ${{ secrets.HAIL_BATCH_CPG_CI_TOKEN }}
+          export_default_credentials: true
 
       - name: Build package
         run: mamba build conda/$(basename $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')
@@ -37,9 +44,12 @@ jobs:
       - name: Test
         if: "!startsWith(github.ref, 'refs/tags/')"
         run: |
-          touch tested
+          export PATH="${HOME}/miniconda3/bin:${PATH}"
+          cd test
+          source test.sh
 
       - name: Upload to anaconda
-        # if: "startsWith(github.ref, 'refs/tags/')"
+        if: "startsWith(github.ref, 'refs/tags/')"
         run: |
-          anaconda -t ${{ secrets.ANACONDA_TOKEN }} upload --force ${HOME}/miniconda3/conda-bld/**/*.tar.bz2
+          anaconda -t ${{ secrets.ANACONDA_TOKEN }} \
+          upload --force ${HOME}/miniconda3/conda-bld/**/*.tar.bz2

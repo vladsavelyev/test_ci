@@ -9,22 +9,22 @@ source:
 
 build:
   number: 0
-#  noarch: python
+  noarch: python
 
 requirements:
-  build:
-    - python {{ python }}
-    {% for dep in data.get("install_requires", []) -%}
-    - {{ dep.lower() }}
-    {% endfor %}
+  host:
+    - python
+    - hail >=0.2.61    
     - pysam
   run:
     - python
-    {% for dep in data.get("install_requires", []) -%}
-    - {{ dep.lower() }}
-    {% endfor %}
-    - pysam
-
+    - hail >=0.2.61
+    - google-cloud-storage
+    - click
+test:
+  commands:
+    - test_ci
+    
 about:
   home: {{ data['url'] }}
   license: {{ data['license'] }}

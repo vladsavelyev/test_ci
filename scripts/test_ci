@@ -1,0 +1,23 @@
+#!/bin/env python
+import os
+import click
+import hail as hl
+from test_ci import _version
+
+@click.command()
+@click.version_option(_version.__version__)
+@click.argument('vcf')
+@click.argument('out_mt')
+def main(
+		vcf: str,
+		out_mt: str,
+):
+    bucket = os.path.dirname(out_mt)
+    if not os.path.isdir(bucket):
+        os.makedirs(bucket)
+    hl.init(default_reference='GRCh38', log=os.path.join(bucket, 'hail.log'))
+    mt = hl.import_vcf(vcf)
+    mt.write(out_mt, overwrite=True)
+
+if __name__ == '__main__':
+    main()

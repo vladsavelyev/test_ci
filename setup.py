@@ -1,17 +1,9 @@
 #!/usr/bin/env python
 import os
 from setuptools import setup
+import versionpy
 
 pkg = 'test_ci'
-
-try:
-    import versionpy
-except ImportError:
-    res = input('Installation requires versionpy. Install it now? [Y/n]')
-    if res.lower().startswith('n'):
-        raise
-    os.system('pip install versionpy')
-    import versionpy
 
 version = versionpy.get_version(pkg)
 package_data = {
@@ -33,10 +25,10 @@ setup(
     package_data=package_data,
     include_package_data=True,
     zip_safe=False,
+    scripts=['scripts/test_ci'],
     install_requires=[
         'versionpy',
         'click',
-        'ngs_utils'
     ],
     keywords='bioinformatics',
     classifiers=[
