@@ -13,9 +13,19 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Build the container
+      # - name: Build the container
+      #   run: |
+      #     docker build . -t docker.io/vladsaveliev/test_ci
+
+      - name: Set up Hail Batch token
         run: |
-          docker build . -t docker.io/vladsaveliev/test_ci
+          mkdir ${HOME}/.hail
+          echo '{"default": "${{ secrets.HAIL_BATCH_CPG_CI_TOKEN }}"}' > ${HOME}/.hail/tokens.json
+          echo '{"location": "external", "default_namespace": "default", "service_namespace": {}, \
+            "domain": "hail.populationgenomics.org.au"}' > ${HOME}/.hail/deploy-config.json
+          ls ${HOME}/.hail
+          cat ${HOME}/.hail/deploy-config.json
+          cat ${HOME}/.hail/tokens.json
 
       - name: Add miniconda to PATH
         run: echo "PATH=${HOME}/miniconda3/bin:${PATH}" >> $GITHUB_ENV
@@ -32,12 +42,6 @@ jobs:
         run: |
           conda create -n hailenv hail google-cloud-storage
           echo "PATH=${HOME}/miniconda3/envs/hailenv/bin:${PATH}" >> $GITHUB_ENV
-
-      - name: Set up Hail Batch token
-        run: |
-          mkdir ${HOME}/.hail
-          echo '{"default": "${{ secrets.HAIL_BATCH_CPG_CI_TOKEN }}"}' > ${HOME}/.hail/tokens.json
-          echo '{"location": "external", "default_namespace": "default", "domain": "hail.populationgenomics.org.au"}' > ${HOME}/.hail/deploy-config.json
 
       - name: Run tests
         run: |
