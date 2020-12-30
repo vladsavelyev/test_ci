@@ -10,6 +10,11 @@ package_data = {
     pkg: versionpy.find_package_files('', pkg)
 }
 
+install_requires = []
+with open("requirements.txt", "r") as f:
+    for req in (line.strip() for line in f):
+        install_requires.append(req)
+
 setup(
     name=pkg,
     script_name=pkg,
@@ -25,11 +30,8 @@ setup(
     package_data=package_data,
     include_package_data=True,
     zip_safe=False,
+    install_requires=install_requires,
     scripts=['scripts/test_ci'],
-    install_requires=[
-        'versionpy',
-        'click',
-    ],
     keywords='bioinformatics',
     classifiers=[
         'Environment :: Console',

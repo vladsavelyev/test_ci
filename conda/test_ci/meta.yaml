@@ -13,18 +13,20 @@ build:
 
 requirements:
   host:
-    - python
+    - python ==3.7.*
     - hail >=0.2.61    
-    - pysam
+    - versionpy
   run:
     - python
     - hail >=0.2.61
     - google-cloud-storage
     - click
+    - versionpy
+
 test:
   commands:
-    - test_ci
-    
+    - test_ci --version
+
 about:
   home: {{ data['url'] }}
   license: {{ data['license'] }}
