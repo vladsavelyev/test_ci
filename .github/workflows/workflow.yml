@@ -34,6 +34,7 @@ jobs:
 
       - name: Set up Hail Batch token
         run: |
+          mkdir ${HOME}/.hail
           echo '{"default": "${{ secrets.HAIL_BATCH_CPG_CI_TOKEN }}"}' > ${HOME}/.hail/tokens.json
 
       - name: Run tests
