@@ -37,7 +37,7 @@ jobs:
         run: |
           mkdir ${HOME}/.hail
           echo '{"default": "${{ secrets.HAIL_BATCH_CPG_CI_TOKEN }}"}' > ${HOME}/.hail/tokens.json
-          echo '{"location": "external", "default_namespace": "default", "domain": "hail.populationgenomics.org.au"}' > ${HOME}/.hail/tokens.json
+          echo '{"location": "external", "default_namespace": "default", "domain": "hail.populationgenomics.org.au"}' > ${HOME}/.hail/deploy-config.json
 
       - name: Run tests
         run: |
