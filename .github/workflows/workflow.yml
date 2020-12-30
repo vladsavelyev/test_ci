@@ -29,7 +29,7 @@ jobs:
 
       - name: Create environment for Hail
         run: |
-          conda create -n hailenv -c cpg -c conda-forge -c bioconda hail
+          conda create -n hailenv -c cpg -c conda-forge -c bioconda hail google-cloud-storage
           echo "PATH=${HOME}/miniconda3/envs/hailenv/bin:${PATH}" >> $GITHUB_ENV
 
       - name: Set up Hail Batch token
