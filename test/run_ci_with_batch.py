@@ -3,7 +3,7 @@ import sys
 
 backend = hb.ServiceBackend('vladislavsavelyev-trial', 'playground-au')
 
-b = hb.Batch(backend=backend, name='cpg_qc_')
+b = hb.Batch(backend=backend, name='test_ci')
 
 j = b.new_job(name='hello')
 j.image(sys.argv[1])

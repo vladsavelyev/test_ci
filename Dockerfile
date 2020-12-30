@@ -13,7 +13,7 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.
 ENV PATH /miniconda/bin:$PATH
 RUN conda config --set always_yes yes --set changeps1 no && \
     conda install -c conda-forge mamba && \
-    conda config --add channels cpg --add channels bioconda --add channels conda-forge
+    conda config --add channels bioconda --add channels conda-forge --add channels cpg
 
 RUN mamba install versionpy pip conda-build conda-verify anaconda-client
 

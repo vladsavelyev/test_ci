@@ -26,10 +26,11 @@ jobs:
             --no-verbose -O miniconda.sh
           bash miniconda.sh -b
           conda config --set always_yes yes --set changeps1 no
+          conda config --add channels bioconda --add channels conda-forge --add channels cpg
 
       - name: Create environment for Hail
         run: |
-          conda create -n hailenv -c cpg -c conda-forge -c bioconda hail google-cloud-storage
+          conda create -n hailenv hail google-cloud-storage
           echo "PATH=${HOME}/miniconda3/envs/hailenv/bin:${PATH}" >> $GITHUB_ENV
 
       - name: Set up Hail Batch token
