@@ -21,11 +21,11 @@ jobs:
         run: |
           mkdir ${HOME}/.hail
           echo '{"default": "${{ secrets.HAIL_BATCH_CPG_CI_TOKEN }}"}' > ${HOME}/.hail/tokens.json
-          echo '{"location": "external", "default_namespace": "default", "service_namespace": {}, \
-            "domain": "hail.populationgenomics.org.au"}' > ${HOME}/.hail/deploy-config.json
+          echo '{"location": "external", "default_namespace": "default", "service_namespace": {}, "domain": "hail.populationgenomics.org.au"}' > ${HOME}/.hail/deploy-config.json
           ls ${HOME}/.hail
           cat ${HOME}/.hail/deploy-config.json
           cat ${HOME}/.hail/tokens.json
+          wc ${HOME}/.hail/tokens.json
 
       - name: Add miniconda to PATH
         run: echo "PATH=${HOME}/miniconda3/bin:${PATH}" >> $GITHUB_ENV
