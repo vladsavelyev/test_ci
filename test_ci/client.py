@@ -374,12 +374,11 @@ class ClientSession:
     ) -> ClientResponse:
 
         import json as j
-        cont = j.dumps(json)
-        hdr = ''.join(f'-H \"{k}: {v}\"' for k, v in headers.items())
-        curl_cmd = f'''
-curl -d '{cont}' -H "Content-Type: application/json" "{hdr}" -X POST 
-{str_or_url}
-'''
+        contents = ''
+        if json:
+            contents = j.dumps(json)
+        hdr = ' '.join(f'-H \"{k}: {v}\"' for k, v in headers.items())
+        curl_cmd = f"""curl -d '{cont}' -H "Content-Type: application/json" {hdr} -X POST {str_or_url}"""
         print(curl_cmd)
         import os
         os.system(curl_cmd)
