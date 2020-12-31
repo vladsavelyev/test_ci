@@ -17,14 +17,26 @@ jobs:
       #   run: |
       #     docker build . -t docker.io/vladsaveliev/test_ci
 
+      - name: Curl
+        run: |
+          curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
+
       - name: Set up Hail Batch token
         run: |
           mkdir ${HOME}/.hail
           echo '{"default": "${{ secrets.HAIL_BATCH_CPG_CI_TOKEN }}"}' > ${HOME}/.hail/tokens.json
           echo '{"location": "external", "default_namespace": "default", "service_namespace": {}, "domain": "hail.populationgenomics.org.au"}' > ${HOME}/.hail/deploy-config.json
 
+      - name: Curl
+        run: |
+          curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
+
       - name: Add miniconda to PATH
         run: echo "PATH=${HOME}/miniconda3/bin:${PATH}" >> $GITHUB_ENV
+
+      - name: Curl
+        run: |
+          curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
 
       - name: Setup conda
         run: |
@@ -34,10 +46,18 @@ jobs:
           conda config --set always_yes yes --set changeps1 no
           conda config --add channels bioconda --add channels conda-forge --add channels cpg
 
+      - name: Curl
+        run: |
+          curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
+
       - name: Create environment for Hail
         run: |
           conda create -n hailenv hail google-cloud-storage
           echo "PATH=${HOME}/miniconda3/envs/hailenv/bin:${PATH}" >> $GITHUB_ENV
+
+      - name: Curl
+        run: |
+          curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
 
       - name: replace client.py
         run: |
