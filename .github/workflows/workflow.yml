@@ -39,20 +39,17 @@ jobs:
           conda create -n hailenv hail google-cloud-storage
           echo "PATH=${HOME}/miniconda3/envs/hailenv/bin:${PATH}" >> $GITHUB_ENV
 
-      - name: replace client.py
-        run: |
-          cp test_ci/client.py ${HOME}/miniconda3/envs/hailenv/lib/python3.7/site-packages/aiohttp/client.py
+      # - name: replace client.py
+      #   run: |
+      #     cp test_ci/client.py ${HOME}/miniconda3/envs/hailenv/lib/python3.7/site-packages/aiohttp/client.py
 
-      - name: Curl
-        run: |
-          curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: Bearer HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs=" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
+      # - name: Curl
+      #   run: |
+      #     curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: Bearer HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs=" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
 
       - name: Run tests
         run: |
           python test/run_ci_with_batch.py docker.io/vladsaveliev/test_ci
-
-
-
 
 
 
