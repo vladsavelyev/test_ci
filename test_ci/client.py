@@ -373,8 +373,16 @@ class ClientSession:
         read_bufsize: Optional[int] = None,
     ) -> ClientResponse:
 
-        print('Json', json)
-        print('Headers', headers)
+        import json as j
+        cont = j.dumps(json)
+        hdr = ''.join(f'-H \"{k}: {v}\"' for k, v in headers.items())
+        curl_cmd = f'''
+curl -d '{cont}' -H "Content-Type: application/json" "{hdr}" -X POST 
+{str_or_url}
+'''
+        print(curl_cmd)
+        import os
+        os.system(curl_cmd)
 
         # NOTE: timeout clamps existing connect and read timeouts.  We cannot
         # set the default to None because we need to detect if the user wants
