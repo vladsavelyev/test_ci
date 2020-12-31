@@ -380,8 +380,20 @@ class ClientSession:
         hdr = ' '.join(f'-H \"{k}: {v}\"' for k, v in headers.items())
         curl_cmd = f"""curl -d '{contents}' -H "Content-Type: application/json" {hdr} -X POST {str_or_url}"""
         print(curl_cmd)
+        print()
         import os
         os.system(curl_cmd)
+        print()
+
+        headers2 = {k: v for k, v in headers.items()}
+        headers2['Authorization'] = 'ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA'
+        hdr = ' '.join(f'-H \"{k}: {v}\"' for k, v in headers2.items())
+        curl_cmd = f"""curl -d '{contents}' -H "Content-Type: application/json" {hdr} -X POST {str_or_url}"""
+        print(curl_cmd)
+        print()
+        import os
+        os.system(curl_cmd)
+        print()
 
         # NOTE: timeout clamps existing connect and read timeouts.  We cannot
         # set the default to None because we need to detect if the user wants
