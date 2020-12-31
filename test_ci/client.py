@@ -341,7 +341,7 @@ class ClientSession:
     ) -> "_RequestContextManager":
         """Perform HTTP request."""
         import os
-        cmd = """curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: ***" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create"""
+        cmd = """curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create"""
         print('request: ', cmd)
         os.system(cmd)
         print()
@@ -380,7 +380,7 @@ class ClientSession:
     ) -> ClientResponse:
 
         import os
-        cmd = """curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: ***" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create"""
+        cmd = """curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create"""
         print('request async: ', cmd)
         os.system(cmd)
         print()
