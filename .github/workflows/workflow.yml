@@ -31,25 +31,25 @@ jobs:
           cat ${HOME}/.hail/tokens.json
           wc ${HOME}/.hail/tokens.json
 
-      - name: Add miniconda to PATH
-        run: echo "PATH=${HOME}/miniconda3/bin:${PATH}" >> $GITHUB_ENV
+      # - name: Add miniconda to PATH
+      #   run: echo "PATH=${HOME}/miniconda3/bin:${PATH}" >> $GITHUB_ENV
 
-      - name: Setup conda
-        run: |
-          wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.sh \
-            --no-verbose -O miniconda.sh
-          bash miniconda.sh -b
-          conda config --set always_yes yes --set changeps1 no
-          conda config --add channels bioconda --add channels conda-forge --add channels cpg
+      # - name: Setup conda
+      #   run: |
+      #     wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.sh \
+      #       --no-verbose -O miniconda.sh
+      #     bash miniconda.sh -b
+      #     conda config --set always_yes yes --set changeps1 no
+      #     conda config --add channels bioconda --add channels conda-forge --add channels cpg
 
-      - name: Create environment for Hail
-        run: |
-          conda create -n hailenv hail google-cloud-storage
-          echo "PATH=${HOME}/miniconda3/envs/hailenv/bin:${PATH}" >> $GITHUB_ENV
+      # - name: Create environment for Hail
+      #   run: |
+      #     conda create -n hailenv hail google-cloud-storage
+      #     echo "PATH=${HOME}/miniconda3/envs/hailenv/bin:${PATH}" >> $GITHUB_ENV
 
-      - name: replace client.py
-        run: |
-          cp test_ci/client.py ${HOME}/miniconda3/envs/hailenv/lib/python3.7/site-packages/aiohttp/client.py
+      # - name: replace client.py
+      #   run: |
+      #     cp test_ci/client.py ${HOME}/miniconda3/envs/hailenv/lib/python3.7/site-packages/aiohttp/client.py
 
       - name: Curl again
         run: |
