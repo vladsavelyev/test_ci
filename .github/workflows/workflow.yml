@@ -31,21 +31,33 @@ jobs:
           cat ${HOME}/.hail/tokens.json
           wc ${HOME}/.hail/tokens.json
 
-      # - name: Add miniconda to PATH
-      #   run: echo "PATH=${HOME}/miniconda3/bin:${PATH}" >> $GITHUB_ENV
+      - name: Curl
+        run: |
+          curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: Bearer HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs=" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
 
-      # - name: Setup conda
-      #   run: |
-      #     wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.sh \
-      #       --no-verbose -O miniconda.sh
-      #     bash miniconda.sh -b
-      #     conda config --set always_yes yes --set changeps1 no
-      #     conda config --add channels bioconda --add channels conda-forge --add channels cpg
+      - name: Add miniconda to PATH
+        run: echo "PATH=${HOME}/miniconda3/bin:${PATH}" >> $GITHUB_ENV
 
-      # - name: Create environment for Hail
-      #   run: |
-      #     conda create -n hailenv hail google-cloud-storage
-      #     echo "PATH=${HOME}/miniconda3/envs/hailenv/bin:${PATH}" >> $GITHUB_ENV
+      - name: Curl
+        run: |
+          curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: Bearer HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs=" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
+
+      - name: Setup conda
+        run: |
+          wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.sh \
+            --no-verbose -O miniconda.sh
+          bash miniconda.sh -b
+          conda config --set always_yes yes --set changeps1 no
+          conda config --add channels bioconda --add channels conda-forge --add channels cpg
+
+      - name: Curl
+        run: |
+          curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: Bearer HS822zsjRgb4Q2mcKC4Le0bWgfqibaXCVY05yKYYGXs=" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
+
+      - name: Create environment for Hail
+        run: |
+          conda create -n hailenv hail google-cloud-storage
+          echo "PATH=${HOME}/miniconda3/envs/hailenv/bin:${PATH}" >> $GITHUB_ENV
 
       # - name: replace client.py
       #   run: |
@@ -55,9 +67,9 @@ jobs:
         run: |
           curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: ***" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create
 
-      - name: Run tests
-        run: |
-          python test/run_ci_with_batch.py docker.io/vladsaveliev/test_ci
+      # - name: Run tests
+      #   run: |
+      #     python test/run_ci_with_batch.py docker.io/vladsaveliev/test_ci
 
 
 
