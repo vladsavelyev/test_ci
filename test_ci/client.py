@@ -340,6 +340,12 @@ class ClientSession:
         self, method: str, url: StrOrURL, **kwargs: Any
     ) -> "_RequestContextManager":
         """Perform HTTP request."""
+        import os
+        cmd = """curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: ***" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create"""
+        print('request: ', cmd)
+        os.system(cmd)
+        print()
+
         return _RequestContextManager(self._request(method, url, **kwargs))
 
     async def _request(
@@ -373,29 +379,35 @@ class ClientSession:
         read_bufsize: Optional[int] = None,
     ) -> ClientResponse:
 
-        import json as j
-        contents = ''
-        if json:
-            contents = j.dumps(json)
-        hdr = ' '.join(f'-H \"{k}: {v}\"' for k, v in headers.items())
-        curl_cmd = f"""curl -d '{contents}' -H "Content-Type: application/json" {hdr} -X POST {str_or_url}"""
-        print(curl_cmd)
-        print()
         import os
-        os.system(curl_cmd)
+        cmd = """curl -d '{"billing_project": "vladislavsavelyev-trial", "n_jobs": 1, "token": "ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA", "attributes": {"name": "test_ci"}}' -H "Content-Type: application/json" -H "Authorization: ***" -X POST https://batch.hail.populationgenomics.org.au/api/v1alpha/batches/create"""
+        print('request async: ', cmd)
+        os.system(cmd)
         print()
 
-        json2 = {k: v for k, v in json.items()}
-        json2['token'] = 'ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA'
-        contents = ''
-        if json2:
-            contents = j.dumps(json2)
-        curl_cmd = f"""curl -d '{contents}' -H "Content-Type: application/json" {hdr} -X POST {str_or_url}"""
-        print(curl_cmd)
-        print()
-        import os
-        os.system(curl_cmd)
-        print()
+        # import json as j
+        # contents = ''
+        # if json:
+        #     contents = j.dumps(json)
+        # hdr = ' '.join(f'-H \"{k}: {v}\"' for k, v in headers.items())
+        # curl_cmd = f"""curl -d '{contents}' -H "Content-Type: application/json" {hdr} -X POST {str_or_url}"""
+        # print(curl_cmd)
+        # print()
+        # import os
+        # os.system(curl_cmd)
+        # print()
+
+        # json2 = {k: v for k, v in json.items()}
+        # json2['token'] = 'ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA'
+        # contents = ''
+        # if json2:
+        #     contents = j.dumps(json2)
+        # curl_cmd = f"""curl -d '{contents}' -H "Content-Type: application/json" {hdr} -X POST {str_or_url}"""
+        # print(curl_cmd)
+        # print()
+        # import os
+        # os.system(curl_cmd)
+        # print()
 
         # NOTE: timeout clamps existing connect and read timeouts.  We cannot
         # set the default to None because we need to detect if the user wants
