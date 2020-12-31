@@ -385,9 +385,11 @@ class ClientSession:
         os.system(curl_cmd)
         print()
 
-        headers2 = {k: v for k, v in headers.items()}
-        headers2['Authorization'] = 'ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA'
-        hdr = ' '.join(f'-H \"{k}: {v}\"' for k, v in headers2.items())
+        json2 = {k: v for k, v in json.items()}
+        json2['token'] = 'ZuGgn34_ifD6vS2MOLhlWZ6Xg5V2Xtg34bLXg1qusTA'
+        contents = ''
+        if json2:
+            contents = j.dumps(json2)
         curl_cmd = f"""curl -d '{contents}' -H "Content-Type: application/json" {hdr} -X POST {str_or_url}"""
         print(curl_cmd)
         print()
