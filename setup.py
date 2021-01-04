@@ -1,24 +1,13 @@
 #!/usr/bin/env python
 import os
 from setuptools import setup
-import versionpy
 
 pkg = 'test_ci'
-
-version = versionpy.get_version(pkg)
-package_data = {
-    pkg: versionpy.find_package_files('', pkg)
-}
-
-install_requires = []
-with open("requirements.txt", "r") as f:
-    for req in (line.strip() for line in f):
-        install_requires.append(req)
 
 setup(
     name=pkg,
     script_name=pkg,
-    version=version,
+    version='2.0.5',
     author='Vlad Savelyev',
     author_email='vladislav.sav@gmail.com',
     description='Toy repo to test CI',
@@ -27,10 +16,8 @@ setup(
     url=f'https://github.com/vladsaveliev/{pkg}',
     license='GPLv3',
     packages=[pkg],
-    package_data=package_data,
     include_package_data=True,
     zip_safe=False,
-    install_requires=install_requires,
     scripts=['scripts/test_ci'],
     keywords='bioinformatics',
     classifiers=[

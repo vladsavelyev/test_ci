@@ -14,14 +14,12 @@ build:
 requirements:
   host:
     - python ==3.7.*
-    - hail >=0.2.61    
-    - versionpy
+    - hail >=0.2.61
   run:
     - python
     - hail >=0.2.61
     - google-cloud-storage
     - click
-    - versionpy
 
 test:
   commands:
