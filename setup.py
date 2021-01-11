@@ -18,7 +18,7 @@ setup(
     packages=[pkg],
     include_package_data=True,
     zip_safe=False,
-    scripts=['scripts/test_ci'],
+    scripts=['scripts/vcf2mt'],
     keywords='bioinformatics',
     classifiers=[
         'Environment :: Console',

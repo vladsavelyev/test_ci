@@ -23,7 +23,7 @@ requirements:
 
 test:
   commands:
-    - test_ci --version
+    - vcf2mt --version
 
 about:
   home: {{ data['url'] }}

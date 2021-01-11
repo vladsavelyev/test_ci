@@ -10,7 +10,7 @@ j.image(sys.argv[1])
 j.command('''
 DIR="test"
 OUT_BUCKET="${DIR}/test_run"
-test_ci "${DIR}/toy.g.vcf.bgz" "$OUT_BUCKET/toy.mt"
+vcf2mt "${DIR}/toy.g.vcf.bgz" "$OUT_BUCKET/toy.mt"
 ls $OUT_BUCKET
 test -e $OUT_BUCKET/toy.mt/_SUCCESS
 ''')
