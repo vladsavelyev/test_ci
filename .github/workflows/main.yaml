@@ -13,13 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      # - name: Build the image
-      #   run: |
-      #     docker build . -t docker.io/vladsaveliev/test_ci
+      - name: Set up GCloud creds
+        id: gcloud
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: "${{ secrets.GCP_PROJECT_ID }}"
+          service_account_key: "${{ secrets.GCP_SA_KEY }}"
+          export_default_credentials: true
 
-      # - name: Push the image
-      #   run: |
-      #     docker push docker.io/vladsaveliev/test_ci
+      - name: Build the image
+        run: gcloud builds submit --region australia-southeast1 --timeout=40m . -t australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci
 
       - name: Set up Hail Batch token
         run: |
@@ -45,17 +48,4 @@ jobs:
 
       - name: Run tests
         run: |
-          python test/run_ci_with_batch.py docker.io/vladsaveliev/test_ci
-
-
-
-
-
-
-
-
-
-
-
-
-
+          python test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci

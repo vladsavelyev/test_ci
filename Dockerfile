@@ -12,10 +12,8 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.
     rm miniconda.sh
 ENV PATH /miniconda/bin:$PATH
 RUN conda config --set always_yes yes --set changeps1 no && \
-    conda install -c conda-forge mamba && \
     conda config --add channels bioconda --add channels conda-forge --add channels cpg
-
-RUN mamba install versionpy pip conda-build conda-verify anaconda-client
+RUN conda install pip conda-build anaconda-client conda-verify
 
 RUN mkdir -p /work
 WORKDIR /work
@@ -26,9 +24,13 @@ COPY test /work/test
 COPY conda /work/conda
 COPY README.md /work/README.md
 
-RUN mamba build conda/test_ci
-RUN mamba create -n testenv --use-local "python==3.7.*" test_ci
+# Building the conda package
+RUN conda build conda/test_ci
+RUN conda create --use-local -n testenv "python==3.7.*" test_ci
 ENV PATH /miniconda/envs/testenv/bin:$PATH
+
+# Getting the connector
+RUN wget https://broad.io/install-gcs-connector
 
 # Clean up
 RUN rm -rf /var/lib/apt/lists/* && \
