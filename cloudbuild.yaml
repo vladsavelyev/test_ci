@@ -1,32 +1,24 @@
 steps:
-#  - name: gcr.io/cloud-builders/docker
-#    args: ['build', '.', '-t', '${_IMG_TAG}']
-#    timeout: 3600s
-#
-#  - name: 'gcr.io/cloud-builders/docker'
-#    args: ['push', '${_IMG_TAG}']
-#
-#  - name: gcr.io/cloud-builders/gcloud
-#    entrypoint: 'bash'
-#    args: [ '-c', "mkdir /root/.hail; echo \"{\\\"default\\\": \\\"$(gcloud secrets versions access latest --secret='hail-token')\\\"}\" > tokens.json" ]
-#
-#  - name: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch
-#    entrypoint: 'bash'
-#    args: ['-x', '-c', "mkdir ~/.hail; cp tokens.json ~/.hail/; cp /hail-deploy-config.json ~/.hail/deploy-config.json; python test/run_ci_with_batch.py ${_IMG_TAG}"]
-#
-#  - name: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch
-#    entrypoint: 'bash'
-#    args: ['-x', '-c', "mkdir ~/.hail; cp tokens.json ~/.hail/; cp /hail-deploy-config.json ~/.hail/deploy-config.json; python test/run_ci_with_batch.py ${_IMG_TAG}"]
-#
-  - name: ubuntu
+  - name: gcr.io/cloud-builders/docker
+    args: ['build', '.', '-t', '${_IMG}:dev']
+    timeout: 3600s
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_IMG}:dev']
+
+  - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
-    args: ['-x', '-c', "IMGTAG=${_IMGTAG}; echo ${IMGTAG//:dev/:$TAG_NAME}"]
+    args: [ '-c', "mkdir /root/.hail; echo \"{\\\"default\\\": \\\"$(gcloud secrets versions access latest --secret='hail-token')\\\"}\" > tokens.json" ]
+
+  - name: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch
+    entrypoint: 'bash'
+    args: ['-x', '-c', "mkdir ~/.hail; cp tokens.json ~/.hail/; cp /hail-deploy-config.json ~/.hail/deploy-config.json; python test/run_ci_with_batch.py ${_IMG}:dev"]
 
   - name: gcr.io/cloud-builders/docker
     entrypoint: 'bash'
-    args: ['-x', '-c', "IMGDEV=${_IMGTAG}; IMGVER=$${IMGDEV//:dev/:$TAG_NAME}; if [ ! -z $TAG_NAME ]; then docker tag $$IMGDEV $$IMGVER; docker push $$IMGVER; else echo 'Skiping pushing the image as the git tag is not defined'; fi"]
+    args: ['-x', '-c', "if [ ! -z $TAG_NAME ]; then docker tag ${_IMG}:dev ${_IMG}:${TAG_NAME}; docker push ${_IMG}:${TAG_NAME}; else echo 'Skiping pushing the image as the git tag is not defined'; fi"]
 
 substitutions:
-    _IMGTAG: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev
+    _IMG: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci
 
 timeout: 3600s
