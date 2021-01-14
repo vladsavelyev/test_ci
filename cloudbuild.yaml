@@ -9,9 +9,9 @@ steps:
     entrypoint: 'bash'
     args: [ '-c', "mkdir /root/.hail; echo '{\"location\": \"external\", \"default_namespace\": \"default\", \"service_namespace\": {}, \"domain\": \"hail.populationgenomics.org.au\"}' > deploy-config.json" ]
 
-  - name: 'australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch'
+  - name: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch
     entrypoint: 'bash'
-    args: ['-c', "mkdir /root/.hail; mv tokens.json deploy-config.json /root/.hail/; python test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci"]
+    args: ['-c', "mkdir /root/.hail; cp tokens.json deploy-config.json /root/.hail/; ls /root/.hail/; cat /root/.hail/*; python test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci"]
 
 #docker run -v $HOME/.hail:/root/.hail -v $PWD:$PWD -ti australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch python $PWD/test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci
 
