@@ -1,18 +1,11 @@
 steps:
-#  - name: 'gcr.io/cloud-builders/docker'
-#    args: ['build', '-t', 'australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:latest', '.']
+  - name: gcr.io/cloud-builders/gcloud
+    args: ['builds', 'submit', '.', '--tag=australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev']
+
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
     args: [ '-c', "mkdir /root/.hail; echo \"{\\\"default\\\": \\\"$(gcloud secrets versions access latest --secret='hail-token')\\\"}\" > tokens.json" ]
 
-  - name: ubuntu
-    entrypoint: 'bash'
-    args: [ '-c', "echo '{\"location\": \"external\", \"default_namespace\": \"default\", \"service_namespace\": {}, \"domain\": \"hail.populationgenomics.org.au\"}' > deploy-config.json" ]
-
   - name: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch
     entrypoint: 'bash'
-    args: ['-x', '-c', "echo $HOME; mkdir ~/.hail; cp tokens.json deploy-config.json ~/.hail/; ls ~/.hail/; python test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci"]
-
-#docker run -v $HOME/.hail:/root/.hail -v $PWD:$PWD -ti australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch python $PWD/test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci
-
-
+    args: ['-x', '-c', "mkdir ~/.hail; cp tokens.json ~/.hail/; cp /hail-deploy-config.json ~/.hail/deploy-config.json; python test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev"]
