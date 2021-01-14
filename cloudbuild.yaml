@@ -19,11 +19,11 @@ steps:
 #    args: ['-x', '-c', "mkdir ~/.hail; cp tokens.json ~/.hail/; cp /hail-deploy-config.json ~/.hail/deploy-config.json; python test/run_ci_with_batch.py ${_IMG_TAG}"]
 #
   - name: ubuntu
-    args: ['echo', '${_IMG_TAG}', '${_TAG//dev/$TAG_NAME}' ]
+    args: ['echo', "${_IMG_TAG}", "${_IMG_TAG//dev/$TAG_NAME}" ]
 
   - name: gcr.io/cloud-builders/docker
     entrypoint: 'bash'
-    args: ['-c', "[ ! -z ${_TAG} ] && docker tag ${_TAG} ${_TAG//dev/$TAG_NAME} && docker push ${_TAG//dev/$TAG_NAME}"]
+    args: ['-c', "[ ! -z $TAG_NAME ] && docker tag ${_IMG_TAG} ${_IMG_TAG//dev/$TAG_NAME} && docker push ${_IMG_TAG//dev/$TAG_NAME} || echo 'Skiping pushing the image as the git tag is not defined'"]
 
 substitutions:
     _IMG_TAG: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev
