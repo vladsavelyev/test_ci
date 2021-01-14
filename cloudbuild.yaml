@@ -24,7 +24,7 @@ steps:
 
   - name: gcr.io/cloud-builders/docker
     entrypoint: 'bash'
-    args: ['-x', '-c', "export IMGDEV=${_IMGTAG}; export IMGVER=${IMGDEV//:dev/:$TAG_NAME}; if [ ! -z $TAG_NAME ]; then docker tag $IMGDEV $IMGVER; docker push $IMGVER; else echo 'Skiping pushing the image as the git tag is not defined'; fi"]
+    args: ['-x', '-c', "IMGDEV=${_IMGTAG}; IMGVER=${_IMGTAG//:dev/:$TAG_NAME}; if [ ! -z $TAG_NAME ]; then docker tag $$IMGDEV $$IMGVER; docker push $$IMGVER; else echo 'Skiping pushing the image as the git tag is not defined'; fi"]
 
 substitutions:
     _IMGTAG: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev
