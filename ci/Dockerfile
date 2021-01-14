@@ -13,11 +13,9 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.
 ENV PATH /miniconda/bin:$PATH
 RUN conda config --set always_yes yes --set changeps1 no && \
     conda config --add channels bioconda --add channels conda-forge --add channels cpg
-RUN conda install pip conda-build anaconda-client conda-verify
 
-# Building the conda package
-RUN conda create -n hailenv hail google-cloud-sdk google-cloud-storage
+RUN conda create -n buildenv hail google-cloud-sdk google-cloud-storage
 
 COPY hail-deploy-config.json /
 
-ENV PATH /miniconda/envs/hailenv/bin:$PATH
+ENV PATH /miniconda/envs/buildenv/bin:$PATH
