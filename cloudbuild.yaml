@@ -20,13 +20,13 @@ steps:
 #
   - name: ubuntu
     entrypoint: 'bash'
-    args: ['-x', '-c', "IMG_TAG=${_IMG_TAG}; echo ${IMG_TAG//dev/$TAG_NAME}"]
+    args: ['-x', '-c', "IMGTAG=${_IMGTAG}; echo ${IMGTAG//:dev/:$TAG_NAME}"]
 
   - name: gcr.io/cloud-builders/docker
     entrypoint: 'bash'
-    args: ['-x', '-c', "IMG_TAG=${_IMG_TAG}; [ ! -z $TAG_NAME ] && docker tag ${IMG_TAG} ${IMG_TAG//dev/$TAG_NAME} && docker push ${IMG_TAG//dev/$TAG_NAME} || echo 'Skiping pushing the image as the git tag is not defined'"]
+    args: ['-x', '-c', "IMGDEV=${_IMGTAG}; IMGVER=${IMGDEV//:dev/:$TAG_NAME}; [ ! -z $TAG_NAME ] && docker tag ${IMGDEV} ${IMGVER} && docker push ${IMGVER} || echo 'Skiping pushing the image as the git tag is not defined'"]
 
 substitutions:
-    _IMG_TAG: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev
+    _IMGTAG: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev
 
 timeout: 3600s
