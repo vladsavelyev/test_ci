@@ -16,3 +16,5 @@ steps:
 
 substitutions:
     _IMG_TAG: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev
+
+timeout: 3600s
