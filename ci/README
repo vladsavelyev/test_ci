@@ -1,0 +1,1 @@
+gcloud builds submit . --tag=australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch --timeout=1h
