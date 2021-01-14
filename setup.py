@@ -7,7 +7,7 @@ pkg = 'test_ci'
 setup(
     name=pkg,
     script_name=pkg,
-    version='2.0.11',
+    version='2.0.12',
     author='Vlad Savelyev',
     author_email='vladislav.sav@gmail.com',
     description='Toy repo to test CI',
