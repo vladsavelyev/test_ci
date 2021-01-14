@@ -1,6 +1,10 @@
 steps:
-  - name: gcr.io/cloud-builders/gcloud
-    args: ['builds', 'submit', '.', '--tag=australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev']
+  - name: gcr.io/cloud-builders/docker
+    args: ['build', '.', '-t', 'australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev']
+    timeout: 60m
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev']
 
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
