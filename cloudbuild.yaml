@@ -1,7 +1,7 @@
 steps:
   - name: gcr.io/cloud-builders/docker
     args: ['build', '.', '-t', 'australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev']
-    timeout: 60m
+    timeout: 3600s
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci:dev']
