@@ -11,7 +11,7 @@ steps:
 
   - name: australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch
     entrypoint: 'bash'
-    args: ['-x -c', "mkdir /root/.hail; cp tokens.json deploy-config.json /root/.hail/; ls /root/.hail/; wc /root/.hail/tokens.json; cat /root/.hail/tokens.json; python test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci"]
+    args: ['-x', '-c', "mkdir /root/.hail; cp tokens.json deploy-config.json /root/.hail/; ls /root/.hail/; wc /root/.hail/tokens.json; cat /root/.hail/tokens.json; python test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci"]
 
 #docker run -v $HOME/.hail:/root/.hail -v $PWD:$PWD -ti australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/hailbatch python $PWD/test/run_ci_with_batch.py australia-southeast1-docker.pkg.dev/vlad-dev/test-ci/test-ci
 
