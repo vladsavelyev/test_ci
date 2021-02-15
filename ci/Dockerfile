@@ -14,7 +14,7 @@ ENV PATH /miniconda/bin:$PATH
 RUN conda config --set always_yes yes --set changeps1 no && \
     conda config --add channels bioconda --add channels conda-forge --add channels cpg
 
-RUN conda create -n buildenv hail google-cloud-sdk google-cloud-storage
+RUN conda create -n buildenv hail google-cloud-sdk
 
 COPY hail-deploy-config.json /
 
